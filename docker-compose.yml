@@ -1,0 +1,61 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:latest
+    container_name: coinvestgo-postgres-container
+    environment:
+      POSTGRES_USER: coinvestgo
+      POSTGRES_PASSWORD: coinvestgo
+      POSTGRES_DB: coinvestgo
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  mongo:
+    image: mongo:latest
+    container_name: coinvestgo-mongo-container
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: coinvestgo
+      MONGO_INITDB_ROOT_PASSWORD: coinvestgo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - backend
+  redis:
+    image: redis:latest
+    container_name: coinvestgo-redis-container
+    command: ["redis-server", "--requirepass", "coinvestgo"]
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+
+  influxdb:
+    image: influxdb:latest
+    container_name: coinvestgo-influxdb-container
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb_data:/var/lib/influxdb
+    networks:
+      - backend
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: password
+      DOCKER_INFLUXDB_INIT_ORG: coinvestgo
+      DOCKER_INFLUXDB_INIT_BUCKET: mybucket
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: coinvestgo
+
+volumes:
+  postgres_data:
+  mongo_data:
+  influxdb_data:
+
+networks:
+  backend:
