@@ -17,11 +17,9 @@ Este é o **TODO list** para o desenvolvimento do projeto *CoinvestGo*. Abaixo e
 
 ### 2. Implementar Repositórios
 
-- [ ] Criar repositórios para manipulação de dados:
-  - [ ] Implementar CRUD para PostgreSQL (`postgres_repository.go`)
-  - [ ] Implementar CRUD para MongoDB (`mongo_repository.go`)
-  - [ ] Implementar operações de inserção, busca, atualização e remoção de registros.
-  - [ ] Criar consultas específicas, como filtro por intervalo de tempo para ações e criptomoedas.
+- [x] Criar repositórios para manipulação de dados:
+  - [x] Implementar repositórios
+  - [x] Implementar operações de inserção de registros.
 
 ### 3. Desenvolver a Lógica dos Serviços
 
