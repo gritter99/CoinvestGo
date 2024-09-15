@@ -11,7 +11,6 @@ func TestPostgresConnection(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to connect to PostgreSQL: %v", err)
 	}
-	t.Log("Conexão com o PostgresDB estabelecida com sucesso")
 	defer conn.Close(context.Background())
 
 	_, err = conn.Exec(context.Background(), "SELECT 1")

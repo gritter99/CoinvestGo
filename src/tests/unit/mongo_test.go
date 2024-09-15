@@ -19,5 +19,4 @@ func TestMongoDBConnection(t *testing.T) {
 		}
 	}()
 
-	t.Log("Conexão com o MongoDB estabelecida com sucesso")
 }
