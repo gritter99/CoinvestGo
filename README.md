@@ -10,10 +10,10 @@ Este é o **TODO list** para o desenvolvimento do projeto *CoinvestGo*. Abaixo e
 
 ### 1. Definir as Entidades do Projeto
 
-- [ ] Definir entidades que representam ações e criptomoedas:
-  - [ ] Criar o modelo `Stock` (Ações)
-  - [ ] Criar o modelo `CryptoCoin` (Criptomoedas)
-  - [ ] Definir campos relevantes: preço, volume, data de transação, etc.
+- [x] Definir entidades que representam ações e criptomoedas:
+  - [x] Criar o modelo `Stock` (Ações)
+  - [x] Criar o modelo `CryptoCoin` (Criptomoedas)
+  - [x] Definir campos relevantes: preço, volume, data de transação, etc.
 
 ### 2. Implementar Repositórios
 
