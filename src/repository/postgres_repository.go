@@ -76,7 +76,7 @@ func (r *PostgresRepository) GetCryptoBySymbol(symbol string) (Crypto, error) {
 }
 
 // AddStockDetail insere ou atualiza detalhes sobre uma ação.
-func (r *PostgresRepository) AddStockDetail(symbol, companyName string, price float64, volume int64, marketCap float64) error {
+func (r *PostgresRepository) AddStockDetail(symbol, companyName string, price float64, volume float64, marketCap float64) error {
 	query := `
 		INSERT INTO stocks (symbol, company_name, price, volume, market_cap)
 		VALUES ($1, $2, $3, $4, $5)
