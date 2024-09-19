@@ -1,28 +1,21 @@
 package configs
 
 import (
+	config "coinvest/src/helpers"
 	"context"
 	"fmt"
-	"log"
-	"os"
 
 	"time"
 
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func ConnectMongoDB() (*mongo.Client, error) {
-	err := godotenv.Load("../../../.env")
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
-	mongoHost := os.Getenv("MONGO_HOST")
-	mongoPort := os.Getenv("MONGO_PORT")
-	mongoUser := os.Getenv("MONGO_USER")
-	mongoPassword := os.Getenv("MONGO_PASSWORD")
+	mongoHost := config.MongoHost
+	mongoPort := config.MongoPort
+	mongoUser := config.MongoUser
+	mongoPassword := config.MongoPassword
 
 	mongoURI := fmt.Sprintf("mongodb://%s:%s@%s:%s", mongoUser, mongoPassword, mongoHost, mongoPort)
 

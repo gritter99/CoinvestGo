@@ -3,10 +3,10 @@ package configs
 import (
 	"context"
 	"fmt"
-	"os"
+
+	config "coinvest/src/helpers"
 
 	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
-	"github.com/joho/godotenv"
 )
 
 // ConnectInfluxDB faz a conexão com o InfluxDB e retorna um cliente.
@@ -18,12 +18,8 @@ import (
 //   - influxdb2.Client: Cliente conectado ao InfluxDB
 //   - error: Se ocorrer algum erro durante a conexão
 func ConnectInfluxDB() (influxdb2.Client, error) {
-	err := godotenv.Load("../../../.env")
-	if err != nil {
-		return nil, fmt.Errorf("variáveis de ambiente INFLUX_URL ou INFLUX_TOKEN não foram definidas")
-	}
-	influxURL := os.Getenv("INFLUX_URL")
-	influxToken := os.Getenv("INFLUX_TOKEN")
+	influxURL := config.InfluxURL
+	influxToken := config.InfluxToken
 
 	client := influxdb2.NewClient(influxURL, influxToken)
 

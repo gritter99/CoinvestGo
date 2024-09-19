@@ -1,26 +1,19 @@
 package configs
 
 import (
+	config "coinvest/src/helpers"
 	"context"
 	"fmt"
-	"log"
-	"os"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/joho/godotenv"
 )
 
 func GetPostgresConnection() (*pgx.Conn, error) {
-	err := godotenv.Load("../../../.env")
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbUser := os.Getenv("DB_USER")
-	dbPassword := os.Getenv("DB_PASSWORD")
-	dbName := os.Getenv("DB_NAME")
+	dbHost := config.DBHost
+	dbPort := config.DBPort
+	dbUser := config.DBUser
+	dbPassword := config.DBPassword
+	dbName := config.DBName
 
 	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", dbUser, dbPassword, dbHost, dbPort, dbName)
 	conn, err := pgx.Connect(context.Background(), connStr)
