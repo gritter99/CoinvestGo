@@ -76,19 +76,18 @@ func (r *PostgresRepository) GetCryptoBySymbol(symbol string) (Crypto, error) {
 }
 
 // AddStockDetail insere ou atualiza detalhes sobre uma ação.
-func (r *PostgresRepository) AddStockDetail(symbol, companyName string, price float64, volume float64, marketCap float64) error {
+func (r *PostgresRepository) AddStockDetail(symbol, companyName string, price float64, marketCap float64) error {
 	query := `
-		INSERT INTO stocks (symbol, company_name, price, volume, market_cap)
-		VALUES ($1, $2, $3, $4, $5)
+		INSERT INTO stocks (symbol, company_name, price, market_cap)
+		VALUES ($1, $2, $3, $4)
 		ON CONFLICT (symbol) DO UPDATE
 		SET company_name = EXCLUDED.company_name,
 		    price = EXCLUDED.price,
-		    volume = EXCLUDED.volume,
 		    market_cap = EXCLUDED.market_cap,
 		    created_at = EXCLUDED.created_at;
 	`
 
-	_, err := r.conn.Exec(context.Background(), query, symbol, companyName, price, volume, marketCap)
+	_, err := r.conn.Exec(context.Background(), query, symbol, companyName, price, marketCap)
 	if err != nil {
 		return fmt.Errorf("erro ao inserir detalhes da ação: %v", err)
 	}
@@ -97,19 +96,18 @@ func (r *PostgresRepository) AddStockDetail(symbol, companyName string, price fl
 }
 
 // AddCryptoDetail insere ou atualiza detalhes sobre uma criptomoeda.
-func (r *PostgresRepository) AddCryptoDetail(symbol, name string, price float64, volume int64, marketCap float64) error {
+func (r *PostgresRepository) AddCryptoDetail(symbol, name string, price float64, marketCap float64) error {
 	query := `
-		INSERT INTO cryptos (symbol, name, price, volume, market_cap)
-		VALUES ($1, $2, $3, $4, $5)
+		INSERT INTO cryptos (symbol, name, price, market_cap)
+		VALUES ($1, $2, $3, $4)
 		ON CONFLICT (symbol) DO UPDATE
 		SET name = EXCLUDED.name,
 		    price = EXCLUDED.price,
-		    volume = EXCLUDED.volume,
 		    market_cap = EXCLUDED.market_cap,
 		    created_at = EXCLUDED.created_at;
 	`
 
-	_, err := r.conn.Exec(context.Background(), query, symbol, name, price, volume, marketCap)
+	_, err := r.conn.Exec(context.Background(), query, symbol, name, price, marketCap)
 	if err != nil {
 		return fmt.Errorf("erro ao inserir detalhes da criptomoeda: %v", err)
 	}

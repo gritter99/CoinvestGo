@@ -15,7 +15,7 @@ func NewCryptoService(cryptoRepo *repository.PostgresRepository) *CryptoService 
 
 // Adicionar uma nova criptomoeda
 func (s *CryptoService) AddCrypto(symbol, name string, price float64, volume int64, marketCap float64) error {
-	err := s.cryptoRepo.AddCryptoDetail(symbol, name, price, volume, marketCap)
+	err := s.cryptoRepo.AddCryptoDetail(symbol, name, price, marketCap)
 	if err != nil {
 		return fmt.Errorf("erro ao adicionar criptomoeda: %v", err)
 	}

@@ -4,7 +4,6 @@ import (
 	"coinvest/src/api/external"
 	"coinvest/src/repository"
 	"fmt"
-	"strconv"
 )
 
 type StockService struct {
@@ -19,49 +18,36 @@ func NewStockService(stockRepo *repository.PostgresRepository) *StockService {
 
 // Atualiza os detalhes de uma ação no banco de dados
 func (s *StockService) UpdateStockDetails(symbol string) error {
-	// Consome a API Alpha Vantage para obter os dados da ação
-	data, err := external.GetStockData(symbol)
+	data, err := external.GetStockData(external.InitFinnhubClient(), symbol)
 	if err != nil {
 		return fmt.Errorf("failed to get stock data for symbol: %s, error: %v", symbol, err)
 	}
 
-	// Validando e extraindo os dados necessários
-	companyName := data.Name
+	// Check if company name exists
+	companyName := data.CompanyName
 	if companyName == "" {
 		return fmt.Errorf("company name not found for symbol: %s", symbol)
 	}
 
-	price, err := parseFloat(data.Price)
-	if err != nil {
-		return fmt.Errorf("invalid price for symbol: %s, error: %v", symbol, err)
+	price := data.Price
+	if price == 0 {
+		return fmt.Errorf("invalid price for symbol: %s", symbol)
 	}
 
-	volume, err := parseFloat(data.Volume)
-	if err != nil {
-		return fmt.Errorf("invalid volume for symbol: %s, error: %v", symbol, err)
+	marketCap := data.MarketCap
+	if marketCap == 0 {
+		return fmt.Errorf("invalid market cap for symbol: %s", symbol)
 	}
 
-	marketCap, err := parseFloat(data.MarketCap)
-	if err != nil {
-		return fmt.Errorf("invalid market cap for symbol: %s, error: %v", symbol, err)
-	}
-
-	// Adiciona os dados da ação no banco de dados
 	err = s.stockRepo.AddStockDetail(
 		symbol,
 		companyName,
-		price,
-		volume,
-		marketCap,
+		float64(price),
+		float64(marketCap),
 	)
 	if err != nil {
 		return fmt.Errorf("error adding stock details to repository: %v", err)
 	}
 
 	return nil
-}
-
-// Função auxiliar para converter string em float64
-func parseFloat(value string) (float64, error) {
-	return strconv.ParseFloat(value, 64)
 }
